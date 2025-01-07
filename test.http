@@ -1,0 +1,14 @@
+@baseUrl = http://localhost:3001
+
+###
+# @name generateToken
+# Simulate token generation (mocked)
+
+GET {{baseUrl}}/auth/fake-token
+
+
+###
+# @name healthCheck
+# Health check server
+
+GET {{baseUrl}}/
