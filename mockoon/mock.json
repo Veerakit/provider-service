@@ -1,7 +1,7 @@
 {
   "uuid": "17f0c9ff-89f9-4682-a07b-47f4efece198",
   "lastMigration": 32,
-  "name": "provider-mock",
+  "name": "provider-service-mock",
   "endpointPrefix": "",
   "latency": 0,
   "port": 3001,
