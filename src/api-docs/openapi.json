@@ -1,0 +1,575 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "Movie API",
+    "version": "0.0.1",
+    "description": "API for managing movie"
+  },
+  "servers": [
+    {
+      "url": "http://localhost:3001",
+      "description": "Local development server"
+    },
+    {
+      "url": "https://movie-api.example.com",
+      "description": "Production development server"
+    }
+  ],
+  "components": {
+    "schemas": {
+      "CreateMovieRequest": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "number",
+            "description": "Movie ID",
+            "example": 1
+          },
+          "name": {
+            "type": "string",
+            "minLength": 1,
+            "description": "Movie name",
+            "example": "The Cat"
+          },
+          "year": {
+            "type": "integer",
+            "minimum": 1998,
+            "maximum": 2025,
+            "description": "Release year",
+            "example": 2012
+          },
+          "rating": {
+            "type": "number",
+            "maximum": 5,
+            "description": "Rating",
+            "example": 3.5
+          }
+        },
+        "required": [
+          "name",
+          "year",
+          "rating"
+        ]
+      },
+      "CreateMovieResponse": {
+        "type": "object",
+        "properties": {
+          "status": {
+            "type": "integer",
+            "description": "Created status code",
+            "example": 201
+          },
+          "data": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "integer",
+                "description": "Movie ID",
+                "example": 1
+              },
+              "name": {
+                "type": "string",
+                "description": "Movie name",
+                "example": "In time"
+              },
+              "year": {
+                "type": "integer",
+                "description": "Release year",
+                "example": 2024
+              },
+              "rating": {
+                "type": "number",
+                "description": "Rating",
+                "example": 4.8
+              }
+            },
+            "required": [
+              "id",
+              "name",
+              "year",
+              "rating"
+            ]
+          },
+          "error": {
+            "type": "string",
+            "description": "Error message"
+          }
+        },
+        "required": [
+          "status",
+          "data"
+        ]
+      },
+      "ConflictMovieResponse": {
+        "type": "object",
+        "properties": {
+          "status": {
+            "type": "integer",
+            "description": "Conflict status code",
+            "example": 409
+          },
+          "error": {
+            "type": "string",
+            "description": "Error message",
+            "example": "Movie already exists"
+          }
+        },
+        "required": [
+          "status"
+        ]
+      },
+      "GetMovieResponse": {
+        "type": "object",
+        "properties": {
+          "status": {
+            "type": "integer",
+            "description": "Success status code",
+            "example": 200
+          },
+          "data": {
+            "anyOf": [
+              {
+                "type": "object",
+                "properties": {
+                  "id": {
+                    "type": "integer",
+                    "description": "Movie ID",
+                    "example": 1
+                  },
+                  "name": {
+                    "type": "string",
+                    "description": "Movie name",
+                    "example": "In time"
+                  },
+                  "year": {
+                    "type": "integer",
+                    "description": "Release year",
+                    "example": 2024
+                  },
+                  "rating": {
+                    "type": "number",
+                    "description": "Rating",
+                    "example": 4.8
+                  }
+                },
+                "required": [
+                  "id",
+                  "name",
+                  "year",
+                  "rating"
+                ]
+              },
+              {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "integer",
+                      "description": "Movie ID",
+                      "example": 1
+                    },
+                    "name": {
+                      "type": "string",
+                      "description": "Movie name",
+                      "example": "In time"
+                    },
+                    "year": {
+                      "type": "integer",
+                      "description": "Release year",
+                      "example": 2024
+                    },
+                    "rating": {
+                      "type": "number",
+                      "description": "Rating",
+                      "example": 4.8
+                    }
+                  },
+                  "required": [
+                    "id",
+                    "name",
+                    "year",
+                    "rating"
+                  ]
+                },
+                "description": "List of Movie detail || empty array if not found",
+                "example": []
+              },
+              {
+                "type": "null"
+              }
+            ]
+          }
+        },
+        "required": [
+          "status",
+          "data"
+        ]
+      },
+      "MovieNotFoundResponse": {
+        "type": "object",
+        "properties": {
+          "status": {
+            "type": "integer",
+            "description": "Not found response code",
+            "example": 404
+          },
+          "error": {
+            "type": "string",
+            "description": "Movie not found error message",
+            "example": "Movie not found"
+          }
+        },
+        "required": [
+          "status",
+          "error"
+        ]
+      },
+      "UpdateMovieRequest": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "description": "Movie ID",
+            "example": 3
+          },
+          "name": {
+            "type": "string",
+            "minLength": 1,
+            "description": "Movie name",
+            "example": "On time"
+          },
+          "year": {
+            "type": "integer",
+            "description": "Release year",
+            "example": 2017
+          },
+          "rating": {
+            "type": "number",
+            "description": "Raing",
+            "example": 3.7
+          }
+        }
+      },
+      "UpdateMovieResponse": {
+        "type": "object",
+        "properties": {
+          "status": {
+            "type": "integer",
+            "description": "Success status code",
+            "example": 200
+          },
+          "data": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "integer",
+                "description": "Movie ID",
+                "example": 1
+              },
+              "name": {
+                "type": "string",
+                "description": "Movie name",
+                "example": "In time"
+              },
+              "year": {
+                "type": "integer",
+                "description": "Release year",
+                "example": 2024
+              },
+              "rating": {
+                "type": "number",
+                "description": "Rating",
+                "example": 4.8
+              }
+            },
+            "required": [
+              "id",
+              "name",
+              "year",
+              "rating"
+            ],
+            "description": "updated movie detail"
+          },
+          "error": {
+            "type": "string",
+            "description": "error message"
+          }
+        },
+        "required": [
+          "status",
+          "data"
+        ]
+      }
+    },
+    "parameters": {}
+  },
+  "paths": {
+    "/": {
+      "get": {
+        "summary": "Health check",
+        "responses": {
+          "200": {
+            "description": "Server is running",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "Server is running"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/movies": {
+      "get": {
+        "summary": "Get all movies matches with query",
+        "description": "Provide name to query specific movie",
+        "parameters": [
+          {
+            "name": "name",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Movie name to query"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "List of movies match with query",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetMovieResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "No movie matches with query",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MovieNotFoundResponse"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "summary": "Add movie into system",
+        "description": "Add movie into movie database",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateMovieRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Add movie into system successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CreateMovieResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid request body",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Movie has conflicts with existing one",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ConflictMovieResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        }
+      }
+    },
+    "/movies/{id}": {
+      "get": {
+        "summary": "Get all movies matches with provided ID",
+        "description": "Provide ID to query specific movie",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Movie ID"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "List of movies match with provided ID",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetMovieResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "No movie matches with query",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MovieNotFoundResponse"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "summary": "Delete movie from system",
+        "description": "Delete movie from movie database",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Movie ID"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Delete movie with id {id} has been deleted",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "allOf": [
+                    {
+                      "$ref": "#/components/schemas/CreateMovieRequest"
+                    },
+                    {
+                      "properties": {
+                        "status": {
+                          "type": "integer",
+                          "description": "Success status code",
+                          "example": 200
+                        },
+                        "message": {
+                          "type": "string",
+                          "description": "Delete movie message",
+                          "example": "Movie with ID {id} has been deleted"
+                        }
+                      },
+                      "required": [
+                        "status",
+                        "message"
+                      ]
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Movie not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MovieNotFoundResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        }
+      },
+      "put": {
+        "summary": "Update movie detail",
+        "description": "Update movie detail",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Movie ID"
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateMovieRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Movie with id {id} has been updated",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UpdateMovieResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Movie not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MovieNotFoundResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        }
+      }
+    }
+  },
+  "webhooks": {}
+}

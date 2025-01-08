@@ -5,7 +5,7 @@ describe('CRUD movie', () => {
   retryableBefore(() => {
     cy.api({ method: 'GET', url: '/' })
       .its('body.message')
-      .should('eq', 'server is running at port 3000')
+      .should('eq', 'Server is running')
 
     cy.getFakeToken('token-session').then((token): void => {
       authToken = token
