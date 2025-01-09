@@ -53,7 +53,7 @@ export class MovieAdapter implements MovieReposity {
     }
   }
 
-  async getMovieByName(title: string): Promise<GetMovieResponse> {
+  async getMovieByTitle(title: string): Promise<GetMovieResponse> {
     try {
       const movie = await this.prisma.movie.findFirst({ where: { title } })
 
@@ -96,15 +96,20 @@ export class MovieAdapter implements MovieReposity {
   ): Promise<CreateMovieResponse | ConflictMovieResponse> {
     try {
       // Check if movie (id and title) already exists
-      if (id && (await this.prisma.movie.findUnique({ where: { id } }))) {
-        return { status: 409, error: `Movie with ID ${data.id} already exists` }
+      if (id) {
+        const movieId = await this.prisma.movie.findUnique({ where: { id } })
+        if (movieId) {
+          return {
+            status: 409,
+            error: `Movie with ID ${movieId.id} already exists`
+          }
+        }
       }
 
-      if (
-        await this.prisma.movie.findFirst({
-          where: { title: data.title }
-        })
-      ) {
+      const movieTitle = await this.prisma.movie.findFirst({
+        where: { title: data.title }
+      })
+      if (movieTitle) {
         return {
           status: 409,
           error: `Movie with title ${data.title} already exists`
@@ -131,7 +136,7 @@ export class MovieAdapter implements MovieReposity {
   > {
     try {
       const movie = await this.prisma.movie.findUnique({ where: { id } })
-      if (movie) {
+      if (!movie) {
         return { status: 404, error: `Movie with ID ${id} not found` }
       }
 
