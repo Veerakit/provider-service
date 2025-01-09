@@ -12,7 +12,7 @@ import {
 export interface MovieReposity {
   getMovies(): Promise<GetMovieResponse>
   getMovieById(id: number): Promise<GetMovieResponse | MovieNotFoundResponse>
-  getMovieByName(
+  getMovieByTitle(
     name: string
   ): Promise<GetMovieResponse | MovieNotFoundResponse>
   deleteMovieById(
