@@ -25,7 +25,7 @@
             "description": "Movie ID",
             "example": 1
           },
-          "name": {
+          "title": {
             "type": "string",
             "minLength": 1,
             "description": "Movie name",
@@ -46,7 +46,7 @@
           }
         },
         "required": [
-          "name",
+          "title",
           "year",
           "rating"
         ]
@@ -67,7 +67,7 @@
                 "description": "Movie ID",
                 "example": 1
               },
-              "name": {
+              "title": {
                 "type": "string",
                 "description": "Movie name",
                 "example": "In time"
@@ -85,7 +85,7 @@
             },
             "required": [
               "id",
-              "name",
+              "title",
               "year",
               "rating"
             ]
@@ -136,7 +136,7 @@
                     "description": "Movie ID",
                     "example": 1
                   },
-                  "name": {
+                  "title": {
                     "type": "string",
                     "description": "Movie name",
                     "example": "In time"
@@ -154,7 +154,7 @@
                 },
                 "required": [
                   "id",
-                  "name",
+                  "title",
                   "year",
                   "rating"
                 ]
@@ -169,7 +169,7 @@
                       "description": "Movie ID",
                       "example": 1
                     },
-                    "name": {
+                    "title": {
                       "type": "string",
                       "description": "Movie name",
                       "example": "In time"
@@ -187,7 +187,7 @@
                   },
                   "required": [
                     "id",
-                    "name",
+                    "title",
                     "year",
                     "rating"
                   ]
@@ -199,6 +199,13 @@
                 "type": "null"
               }
             ]
+          },
+          "error": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "description": "Error message if an error occurred, otherwise null"
           }
         },
         "required": [
@@ -233,7 +240,7 @@
             "description": "Movie ID",
             "example": 3
           },
-          "name": {
+          "title": {
             "type": "string",
             "minLength": 1,
             "description": "Movie name",
@@ -267,7 +274,7 @@
                 "description": "Movie ID",
                 "example": 1
               },
-              "name": {
+              "title": {
                 "type": "string",
                 "description": "Movie name",
                 "example": "In time"
@@ -285,7 +292,7 @@
             },
             "required": [
               "id",
-              "name",
+              "title",
               "year",
               "rating"
             ],
