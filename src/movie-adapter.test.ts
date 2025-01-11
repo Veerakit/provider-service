@@ -1,4 +1,5 @@
-import { Prisma, PrismaClient, Movie } from '@prisma/client'
+import type { Movie } from '@prisma/client'
+import { Prisma, PrismaClient } from '@prisma/client'
 import type { DeepMockProxy } from 'jest-mock-extended'
 import { mockDeep } from 'jest-mock-extended'
 import { MovieAdapter } from './movie-adapter'
@@ -55,7 +56,7 @@ describe('Movie Adapter', () => {
     it('should be able to get movie by id', async () => {
       prismaMock.movie.findUnique.mockResolvedValue(mockMovie)
       const result = await movieAdapter.getMovieById(mockMovie.id)
-      // @ts-expect-error
+      // @ts-expect-error it should return data
       expect(result.data).toEqual(mockMovie)
       expect(prismaMock.movie.findUnique).toHaveBeenCalledTimes(1)
       expect(prismaMock.movie.findUnique).toHaveBeenCalledWith({
@@ -66,7 +67,7 @@ describe('Movie Adapter', () => {
     it('should return null when id is matched', async () => {
       prismaMock.movie.findUnique.mockResolvedValue(null)
       const result = await movieAdapter.getMovieById(mockMovie.id)
-      // @ts-expect-error
+      // @ts-expect-error it should return null
       expect(result.data).toBeNull()
       expect(prismaMock.movie.findUnique).toHaveBeenCalledTimes(1)
       expect(prismaMock.movie.findUnique).toHaveBeenCalledWith({
@@ -79,7 +80,7 @@ describe('Movie Adapter', () => {
         new Error('Failed to retrieve movie by id')
       )
       const result = await movieAdapter.getMovieById(mockMovie.id)
-      //@ts-expect-error
+      // @ts-expect-error it should return null
       expect(result.data).toBeNull()
       expect(prismaMock.movie.findUnique).toHaveBeenCalledTimes(1)
       expect(prismaMock.movie.findUnique).toHaveBeenCalledWith({
@@ -185,7 +186,7 @@ describe('Movie Adapter', () => {
       prismaMock.movie.create.mockResolvedValue(movieData)
 
       const result = await movieAdapter.addMovie(movieDataWithoutId)
-      const expectResult = { status: 200, data: movieData }
+      const expectResult = { status: 201, data: movieData }
       expect(result).toEqual(expectResult)
       expect(prismaMock.movie.create).toHaveBeenCalledWith({
         data: movieDataWithoutId
@@ -198,7 +199,7 @@ describe('Movie Adapter', () => {
       prismaMock.movie.create.mockResolvedValue(movieData)
 
       const result = await movieAdapter.addMovie(movieDataWithoutId, id)
-      const expectResult = { status: 200, data: movieData }
+      const expectResult = { status: 201, data: movieData }
       expect(result).toEqual(expectResult)
       expect(prismaMock.movie.create).toHaveBeenCalledWith({ data: movieData })
     })
@@ -235,7 +236,8 @@ describe('Movie Adapter', () => {
       prismaMock.movie.findFirst.mockResolvedValue(null)
       prismaMock.movie.create.mockRejectedValue(error)
 
-      const handleErrorSpy = jest.spyOn(movieAdapter as any, 'handleError')
+      // @ts-nocheck please help me
+      const handleErrorSpy = jest.spyOn(movieAdapter, 'handleError')
       const result = await movieAdapter.addMovie(movieDataWithoutId)
       const expectResult = { status: 500, error: 'Internal server error' }
       expect(result).toStrictEqual(expectResult)
@@ -297,7 +299,7 @@ describe('Movie Adapter', () => {
       prismaMock.movie.findUnique.mockResolvedValue(existingMovie)
       prismaMock.movie.update.mockRejectedValue(error)
 
-      const handleErrorSpy = jest.spyOn(movieAdapter as any, 'handleError')
+      const handleErrorSpy = jest.spyOn(movieAdapter, 'handleError')
       const result = await movieAdapter.updateMovie(updateMovieData, id)
       const expectResult = { status: 500, error: 'Internal server error' }
       expect(result).toStrictEqual(expectResult)

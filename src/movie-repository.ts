@@ -9,7 +9,7 @@ import {
   GetMovieResponse
 } from './@types'
 
-export interface MovieReposity {
+export interface MovieRepository {
   getMovies(): Promise<GetMovieResponse>
   getMovieById(id: number): Promise<GetMovieResponse | MovieNotFoundResponse>
   getMovieByTitle(
@@ -19,7 +19,8 @@ export interface MovieReposity {
     id: number
   ): Promise<DeleteMovieResponse | MovieNotFoundResponse>
   addMovie(
-    data: CreateMovieRequest
+    data: CreateMovieRequest,
+    id?: number
   ): Promise<CreateMovieResponse | ConflictMovieResponse>
   updateMovie(
     data: UpdateMovieRequest,

@@ -1,5 +1,5 @@
 import { Prisma, type PrismaClient } from '@prisma/client'
-import {
+import type {
   DeleteMovieResponse,
   CreateMovieRequest,
   UpdateMovieRequest,
@@ -9,16 +9,16 @@ import {
   MovieNotFoundResponse,
   GetMovieResponse
 } from './@types'
-import { MovieReposity } from './movie-repository'
+import type { MovieRepository } from './movie-repository'
 
-export class MovieAdapter implements MovieReposity {
+export class MovieAdapter implements MovieRepository {
   private readonly prisma: PrismaClient
 
   constructor(prisma: PrismaClient) {
     this.prisma = prisma
   }
 
-  private handleError(error: unknown): void {
+  handleError(error: unknown): void {
     if (error instanceof Prisma.PrismaClientKnownRequestError) {
       console.error('Prisma error code:', error.code, 'Message:', error.message)
     } else if (error instanceof Error) {
@@ -121,7 +121,7 @@ export class MovieAdapter implements MovieReposity {
         data: id ? { ...data, id } : data
       })
 
-      return { status: 200, data: movie }
+      return { status: 201, data: movie }
     } catch (error) {
       this.handleError(error)
       return { status: 500, error: 'Internal server error' }
