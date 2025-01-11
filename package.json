@@ -21,7 +21,8 @@
     "lint": "eslint --ext=.js,.ts,.tsx --fix",
     "gen:openapi": "tsx src/api-docs/openapi-writer.ts",
     "optic:lint": "optic lint src/api-docs/openapi.json",
-    "optic:diff": "optic diff src/api-docs/openapi.json --check --web --base main"
+    "optic:diff": "optic diff src/api-docs/openapi.json --check --web --base main",
+    "optic:patch": "optic capture src/api-docs/openapi.json"
   },
   "devDependencies": {
     "@bahmutov/cy-api": "2.2.7",
