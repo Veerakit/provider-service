@@ -45,11 +45,7 @@
             "example": 3.5
           }
         },
-        "required": [
-          "title",
-          "year",
-          "rating"
-        ]
+        "required": ["title", "year", "rating"]
       },
       "CreateMovieResponse": {
         "type": "object",
@@ -83,22 +79,14 @@
                 "example": 4.8
               }
             },
-            "required": [
-              "id",
-              "title",
-              "year",
-              "rating"
-            ]
+            "required": ["id", "title", "year", "rating"]
           },
           "error": {
             "type": "string",
             "description": "Error message"
           }
         },
-        "required": [
-          "status",
-          "data"
-        ]
+        "required": ["status", "data"]
       },
       "ConflictMovieResponse": {
         "type": "object",
@@ -114,9 +102,7 @@
             "example": "Movie already exists"
           }
         },
-        "required": [
-          "status"
-        ]
+        "required": ["status"]
       },
       "GetMovieResponse": {
         "type": "object",
@@ -152,12 +138,7 @@
                     "example": 4.8
                   }
                 },
-                "required": [
-                  "id",
-                  "title",
-                  "year",
-                  "rating"
-                ]
+                "required": ["id", "title", "year", "rating"]
               },
               {
                 "type": "array",
@@ -185,12 +166,7 @@
                       "example": 4.8
                     }
                   },
-                  "required": [
-                    "id",
-                    "title",
-                    "year",
-                    "rating"
-                  ]
+                  "required": ["id", "title", "year", "rating"]
                 },
                 "description": "List of Movie detail || empty array if not found",
                 "example": []
@@ -201,17 +177,11 @@
             ]
           },
           "error": {
-            "type": [
-              "string",
-              "null"
-            ],
+            "type": ["string", "null"],
             "description": "Error message if an error occurred, otherwise null"
           }
         },
-        "required": [
-          "status",
-          "data"
-        ]
+        "required": ["status", "data"]
       },
       "MovieNotFoundResponse": {
         "type": "object",
@@ -227,10 +197,7 @@
             "example": "Movie not found"
           }
         },
-        "required": [
-          "status",
-          "error"
-        ]
+        "required": ["status", "error"]
       },
       "UpdateMovieRequest": {
         "type": "object",
@@ -290,12 +257,7 @@
                 "example": 4.8
               }
             },
-            "required": [
-              "id",
-              "title",
-              "year",
-              "rating"
-            ],
+            "required": ["id", "title", "year", "rating"],
             "description": "updated movie detail"
           },
           "error": {
@@ -303,10 +265,7 @@
             "description": "error message"
           }
         },
-        "required": [
-          "status",
-          "data"
-        ]
+        "required": ["status", "data"]
       }
     },
     "parameters": {}
@@ -502,10 +461,7 @@
                           "example": "Movie with ID {id} has been deleted"
                         }
                       },
-                      "required": [
-                        "status",
-                        "message"
-                      ]
+                      "required": ["status", "message"]
                     }
                   ]
                 }

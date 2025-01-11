@@ -4,14 +4,14 @@ on:
   workflow_dispatch:
 
 concurrency:
-  group: ${{ github.workflow }}-${{ github.head_ref || github.ref }}
+  group: ${{ github.ref }} && ${{ github.workflow }}
   cancel-in-progress: true
 
 permissions:
   contents: write
 
 jobs:
-  schema-validation:
+  schema-test:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -58,7 +58,7 @@ jobs:
           message: 'Update OpenAPI spec and API docs'
           add: 'src/api-docs/openapi.json docs/api-docs.html'
           push: true
-          github_token: ${{ secrets.PAT_TOKEN }}
+          github_token: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Create empty commit to re-run checks
         if: env.changes == 'true'
